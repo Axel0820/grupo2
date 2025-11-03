@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import logo from './logo.svg';
 import './App.css';
 import Catalogo from './componente/Catalogo';
@@ -11,6 +12,24 @@ function App() {
         
       </header>
     </div>
+=======
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Inicio from "./pages/inicio";
+import Formulario from "./pages/Formulario";
+import Catalogo from "./pages/Catalogo"; 
+
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Inicio />} />
+        <Route path="/formulario" element={<Formulario />} />
+        <Route path="/catalogo" element={<Catalogo />} />
+      </Routes>
+    </Router>
+>>>>>>> 87be889f54037ba1d29ab26dd235dad27586149c
   );
 }
 
