@@ -1,0 +1,117 @@
+.inicio {
+  font-family: "Poppins", sans-serif;
+  color: #e0e0e0;
+  background-color: #0a0a0a;
+  min-height: 100vh;
+}
+
+/* --- SECCIon--- */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 100px;
+  background: linear-gradient(135deg, #0a0a0a 40%, #111 100%);
+  flex-wrap: wrap;
+  border-bottom: 2px solid #0f2027;
+}
+
+.hero-text {
+  flex: 1 1 400px;
+  max-width: 550px;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.hero-text h1 span {
+  color: #00b8ff;
+
+}
+
+.hero-text p {
+  margin: 25px 0;
+  line-height: 1.6;
+  color: #b0b0b0;
+  font-size: 1.1rem;
+}
+
+.boton {
+  display: inline-block;
+  background: #0095d9;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  
+}
+
+.boton:hover {
+  background: #00b8ff;
+  
+}
+
+.hero-img img {
+  width: 380px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 184, 255, 0.2);
+  transition: transform 0.4s ease;
+}
+
+.hero-img img:hover {
+  transform: scale(1.05);
+}
+
+/* --- SECCIÓN INFO --- */
+.info {
+  text-align: center;
+  padding: 80px 40px;
+  background: #0f0f0f;
+}
+
+.info h2 {
+  color: #00b8ff;
+  margin-bottom: 40px;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+}
+
+/* --- TARJETAS --- */
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.card {
+  background: #111;
+  border: 1px solid #1e1e1e;
+  border-radius: 20px;
+  padding: 25px;
+  max-width: 280px;
+  box-shadow: 0 0 20px rgba(0, 184, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+
+
+.card h3 {
+  color: #fff;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.card p {
+  color: #b0b0b0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
