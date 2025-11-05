@@ -1,41 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import './Formulario.css';
 
 function Formulario() {
+  // useForm nos da: register, handleSubmit, reset y errors
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [datosModal, setDatosModal] = useState(null);
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await fetch('http://localhost:3001/pedidos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          fecha: new Date().toLocaleString()
-        }),
-      });
-
-      if (response.ok) {
-        setDatosModal(data);
-        setMostrarModal(true);
-        reset();
-      } else {
-        alert('Error al enviar el pedido');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error al conectar con la base de datos');
-    }
-  };
-
-  const cerrarModal = () => {
-    setMostrarModal(false);
-    setDatosModal(null);
+  // Esta función se ejecuta cuando el formulario es válido
+  const onSubmit = (data) => {
+    // Guardar en localStorage
+    const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
+    const nuevoPedido = {
+      ...data,
+      id: Date.now(),
+      fecha: new Date().toLocaleString()
+    };
+    pedidos.push(nuevoPedido);
+    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+    
+    console.log('Datos del pedido:', data);
+    alert('Pedido enviado exitosamente, revisa la consola');
+    reset(); // Limpia el formulario
   };
 
   return (
@@ -139,28 +124,6 @@ function Formulario() {
 
         <button type="submit" className="submit-btn">Enviar Pedido</button>
       </form>
-
-      {/* Modal de confirmación */}
-      {mostrarModal && datosModal && (
-        <div className="modal-overlay" onClick={cerrarModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>✅ Pedido Enviado con Éxito</h2>
-            </div>
-            <div className="modal-body">
-              <p><strong>Nombre:</strong> {datosModal.nombre}</p>
-              <p><strong>DNI:</strong> {datosModal.dni}</p>
-              <p><strong>Producto:</strong> {datosModal.producto}</p>
-              <p><strong>Cantidad:</strong> {datosModal.cantidad}</p>
-              <p><strong>Dirección:</strong> {datosModal.direccion}</p>
-              <p><strong>Celular:</strong> {datosModal.celular}</p>
-            </div>
-            <div className="modal-footer">
-              <button onClick={cerrarModal} className="modal-btn">Aceptar</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
