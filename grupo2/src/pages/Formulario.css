@@ -6,8 +6,8 @@
   min-height: 80vh;
   padding: 20px;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(33, 150, 243, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 20% 50%, rgba(33, 150, 243, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 184, 255, 0.15) 0%, transparent 50%),
     #000;
   position: relative;
 }
@@ -56,8 +56,8 @@
   padding: 40px;
   border-radius: 10px;
   box-shadow: 
-    0 4px 20px rgba(76, 175, 80, 0.3),
-    0 0 60px rgba(76, 175, 80, 0.1);
+    0 4px 20px rgba(0, 184, 255, 0.3),
+    0 0 60px rgba(0, 184, 255, 0.1);
   border: 1px solid #00B8FF;
   width: 100%;
   max-width: 500px;
@@ -71,7 +71,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, #4CAF50, #2196F3, #4CAF50);
+  background: linear-gradient(45deg, #00B8FF, #2196F3, #00B8FF);
   border-radius: 10px;
   z-index: -1;
   opacity: 0.5;
