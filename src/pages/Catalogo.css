@@ -1,0 +1,134 @@
+.catalogo{
+  background-color: #1a1a1a;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 
+    0 4px 20px rgba(76, 175, 80, 0.3),
+    0 0 60px rgba(76, 175, 80, 0.1);
+  border: 1px solid #00B8FF;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+/* Contenedor principal */
+.catalogo-container {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #000000;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #00bcd4; /* Celeste */
+}
+
+/* Título */
+.catalogo-container h1 {
+  text-align: center;
+  color: #00bcd4;
+  margin-bottom: 30px;
+}
+
+/* Filtros */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.filtros input,
+.filtros select {
+  padding: 10px 14px;
+  border: 1px solid #00bcd4;
+  border-radius: 8px;
+  font-size: 16px;
+  min-width: 220px;
+  background-color: #121212;
+  color: #00bcd4;
+}
+
+.filtros input::placeholder {
+  color: #80deea;
+}
+
+.filtros input:focus,
+.filtros select:focus {
+  border-color: #26c6da;
+  outline: none;
+}
+
+/* Lista de pedidos */
+.pedidos-lista {
+  display: grid;
+  gap: 20px;
+}
+
+/* Tarjeta de pedido */
+.pedido-card {
+  border: 1px solid #00bcd4;
+  border-left: 6px solid #26c6da;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #1a1a1a;
+  transition: box-shadow 0.3s;
+}
+
+.pedido-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 188, 212, 0.3);
+}
+
+/* Encabezado de la tarjeta */
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.pedido-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #00e5ff;
+}
+
+/* Botón eliminar */
+.btn-eliminar {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-eliminar:hover {
+  background-color: #c62828;
+}
+
+/* Información del pedido */
+.pedido-info p {
+  margin: 4px 0;
+  font-size: 15px;
+  color: #80deea;
+}
+
+.pedido-info strong {
+  color: #00bcd4;
+}
+
+.fecha {
+  font-size: 13px;
+  color: #4dd0e1;
+  margin-top: 8px;
+}
+
+/* Mensaje sin resultados */
+.no-pedidos {
+  text-align: center;
+  color: #80deea;
+  font-style: italic;
+  margin-top: 40px;
+}
