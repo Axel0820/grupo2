@@ -3,34 +3,41 @@
   align-items: center;
   justify-content: space-between;
   background-color: #0a0a0a;
-  padding: 10px 40px;
+  padding: 14px 80px;
   border-bottom: 2px solid #111;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
+/* Alineación de logo + marca */
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .logo {
-  width: 45px;
-  height: auto;
+  width: 60px;
+  
 }
 
 .brand {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #fff;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
+/* Links */
 .navbar-links {
   display: flex;
-  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  gap: 45px;
+  flex: 1;
 }
 
 .nav-item {
@@ -40,17 +47,18 @@
   font-size: 0.95rem;
   letter-spacing: 0.5px;
   position: relative;
-  transition: color 0.2s ease-in-out;
+  transition: color 0.25s ease-in-out;
 }
 
 .nav-item:hover {
   color: #00b8ff;
 }
 
+/* Subrayado animado */
 .nav-item::after {
   content: "";
   position: absolute;
-  bottom: -5px;
+  bottom: -6px;
   left: 0;
   width: 0%;
   height: 2px;
@@ -65,4 +73,21 @@
 
 .nav-item.active {
   color: #00b8ff;
+}
+
+/* Ajuste para que todo se vea centrado y equilibrado */
+.navbar-links {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-left {
+  flex: 1;
+}
+
+.navbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
 }

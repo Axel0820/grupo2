@@ -1,40 +1,54 @@
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./Inicio.css";
 
 export default function Inicio() {
+  const [pedidos, setPedidos] = useState([]);
+
+  useEffect(() => {
+    const cargarPedidos = () => {
+      const pedidosGuardados = JSON.parse(localStorage.getItem("pedidos") || "[]");
+      setPedidos(pedidosGuardados);
+    };
+    cargarPedidos();
+  }, []);
+
+  const pedidosPendientes = pedidos.filter(p => !p.entregado).length;
+  const pedidosEntregados = pedidos.filter(p => p.entregado).length;
+
   return (
     <div className="inicio">
-      <section className="hero">
-        <div className="hero-text">
-          <h1>Bienvenidos a <span>Agua Rebelde</span></h1>
-          <p>
-            Somos una tienda dedicada a la venta y distribución de agua purificada.
-            En Agua Rebelde creemos que la hidratación es libertad, y por eso te
-            llevamos frescura donde la necesites.
-          </p>
-          <a href="/catalogo" className="boton">Ver Catálogo</a>
+      <div className="contenedor">
+        <h1>Panel del Empleado</h1>
+        <p className="descripcion">
+          Bienvenido al sistema de gestión de <span>Agua Rebelde</span>.  
+          Aquí podés visualizar y administrar los pedidos del día.
+        </p>
+
+        <div className="stats">
+          <div className="stat">
+            <h3>Pendientes</h3>
+            <p>{pedidosPendientes}</p>
+          </div>
+          <div className="stat">
+            <h3>Entregados</h3>
+            <p>{pedidosEntregados}</p>
+          </div>
+          <div className="stat">
+            <h3>Total</h3>
+            <p>{pedidos.length}</p>
+          </div>
         </div>
 
-        
-      </section>
-
-      <section className="info">
-        <h2> Por qué elegirnos</h2>
-        <div className="cards">
-          <div className="card">
-            <h3>Agua 100% purificada</h3>
-            <p>Filtrada y tratada con los más altos estándares de calidad.</p>
-          </div>
-          <div className="card">
-            <h3>Entrega rápida</h3>
-            <p>Te llevamos tu pedido en el día en toda la ciudad.</p>
-          </div>
-          <div className="card">
-            <h3>Compromiso ecológico</h3>
-            <p>Usamos envases retornables y reciclables para cuidar el planeta.</p>
-          </div>
+        <div className="acciones">
+          <Link to="/formulario" className="boton1">
+            Nuevo Pedido
+          </Link>
+          <Link to="/catalogo" className="boton2">
+            Ver Pedidos
+          </Link>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
-

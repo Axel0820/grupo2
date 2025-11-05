@@ -13,6 +13,7 @@
 }
 
 .formulario-container::before {
+  
   content: '💧';
   position: absolute;
   top: 10%;
