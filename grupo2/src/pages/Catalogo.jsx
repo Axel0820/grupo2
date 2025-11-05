@@ -4,7 +4,7 @@ const Catalogo = () => {
     return (
         <div>
             <h1>Catálogo de Productos</h1>
-            {/* Aquí puedes agregar los componentes del catálogo */}
+            {/* Aqui puedes agregar los componentes del catalogo */}
         </div>
     );
 }
