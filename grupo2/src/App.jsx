@@ -1,8 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+﻿import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Inicio from "./pages/inicio";
 import Formulario from "./pages/Formulario";
-import Catalogo from "./pages/Catalogo"; 
+import Catalogo from "./pages/Catalogo";
 
 function App() {
   return (
@@ -18,3 +18,4 @@ function App() {
 }
 
 export default App;
+
