@@ -65,6 +65,11 @@ function Formulario() {
             })}
             placeholder="Ingrese su nombre"
             maxLength="30"
+            onKeyPress={(e) => {
+              if (!/[A-Za-zÁÉÍÓÚáéíóúÑñ\s]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
           />
           {errors.nombre && <span className="error">{errors.nombre.message}</span>}
         </div>
@@ -91,6 +96,11 @@ function Formulario() {
             })}
             placeholder="Ingrese su DNI (8 dígitos)"
             maxLength="8"
+            onKeyPress={(e) => {
+              if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
           />
           {errors.dni && <span className="error">{errors.dni.message}</span>}
         </div>
@@ -126,6 +136,11 @@ function Formulario() {
               }
             })}
             placeholder="+54 3875787392"
+            onKeyPress={(e) => {
+              if (!/[0-9+\s]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
           />
           {errors.celular && <span className="error">{errors.celular.message}</span>}
         </div>
@@ -163,6 +178,17 @@ function Formulario() {
               }
             })}
             placeholder="Ingrese la cantidad"
+            onKeyPress={(e) => {
+              if (e.key === '-' || e.key === 'e' || e.key === 'E' || e.key === '+') {
+                e.preventDefault();
+              }
+            }}
+            onPaste={(e) => {
+              const pastedData = e.clipboardData.getData('text');
+              if (pastedData.includes('-') || parseInt(pastedData) < 0) {
+                e.preventDefault();
+              }
+            }}
           />
           {errors.cantidad && <span className="error">{errors.cantidad.message}</span>}
         </div>
