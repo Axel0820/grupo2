@@ -19,7 +19,7 @@ export default function Inicio() {
   return (
     <div className="inicio">
       <div className="contenedor">
-        <h1>Panel del Empleado</h1>
+        <h1>Panel del Empleado.</h1>
         <p className="descripcion">
           Bienvenido al sistema de gestión de <span>Agua Rebelde</span>.  
           Aquí podés visualizar y administrar los pedidos del día.
