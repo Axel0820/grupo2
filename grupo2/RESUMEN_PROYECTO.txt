@@ -1,0 +1,880 @@
+================================================================================
+           RESUMEN COMPLETO DEL PROYECTO - AGUA REBELDE
+            Sistema de Gestión de Pedidos con React
+================================================================================
+
+🎯 DESCRIPCIÓN DEL PROYECTO
+--------------------------------------------------------------------------------
+Sistema de gestión de pedidos de agua embotellada usando React con 
+almacenamiento local (localStorage). Permite crear, visualizar y gestionar 
+pedidos sin necesidad de backend.
+
+================================================================================
+📦 DEPENDENCIAS PRINCIPALES (package.json)
+================================================================================
+
+LIBRERÍAS CORE:
+--------------------------------------------------------------------------------
+"react": "^19.2.0"              // Framework principal de JavaScript
+"react-dom": "^19.2.0"          // Renderizado de componentes en el DOM
+"react-scripts": "5.0.1"        // Herramientas de Create React App
+
+LIBRERÍAS DE FUNCIONALIDAD:
+--------------------------------------------------------------------------------
+"react-router-dom": "^7.9.5"    // Navegación entre páginas (SPA)
+"react-hook-form": "^7.66.0"    // Gestión avanzada de formularios
+"bootstrap": "^5.3.8"           // Framework CSS (opcional)
+"web-vitals": "^2.1.4"          // Métricas de rendimiento
+
+LIBRERÍAS DE TESTING:
+--------------------------------------------------------------------------------
+"@testing-library/react": "^16.3.0"
+"@testing-library/jest-dom": "^6.9.1"
+"@testing-library/user-event": "^13.5.0"
+
+SCRIPTS DISPONIBLES:
+--------------------------------------------------------------------------------
+npm start    // Inicia servidor de desarrollo en localhost:3000
+npm build    // Genera build optimizado para producción
+npm test     // Ejecuta tests con Jest
+npm eject    // Expone configuración de webpack (irreversible)
+
+================================================================================
+🏗️ ESTRUCTURA DE COMPONENTES Y ARCHIVOS
+================================================================================
+
+ESTRUCTURA DEL PROYECTO:
+--------------------------------------------------------------------------------
+grupo2/
+├── public/
+│   ├── index.html          // HTML base
+│   ├── manifest.json       // PWA config
+│   └── robots.txt
+├── src/
+│   ├── components/
+│   │   ├── Navbar.jsx      // Barra de navegación
+│   │   └── Navbar.css
+│   ├── pages/
+│   │   ├── inicio.jsx      // Dashboard principal
+│   │   ├── Inicio.css
+│   │   ├── Formulario.jsx  // Formulario de pedidos
+│   │   ├── Formulario.css
+│   │   ├── Catalogo.jsx    // Lista de pedidos
+│   │   └── Catalogo.css
+│   ├── img/
+│   │   ├── logo.png        // Logo flotante
+│   │   └── logo2.png       // Logo navbar
+│   ├── App.jsx             // Componente raíz con Router
+│   ├── App.css
+│   ├── index.js            // Punto de entrada
+│   ├── index.css           // Estilos globales
+│   ├── reportWebVitals.js
+│   └── setupTests.js
+├── package.json
+└── README.md
+
+================================================================================
+📄 ANÁLISIS DETALLADO DE CADA COMPONENTE
+================================================================================
+
+1. index.js (PUNTO DE ENTRADA)
+--------------------------------------------------------------------------------
+UBICACIÓN: src/index.js
+
+IMPORTACIONES:
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+
+FUNCIÓN PRINCIPAL:
+- Crea el root de React en el elemento con id='root'
+- Renderiza <App /> dentro de <React.StrictMode>
+- StrictMode ayuda a detectar problemas en desarrollo
+
+CÓDIGO CLAVE:
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+================================================================================
+2. App.jsx (COMPONENTE RAÍZ)
+================================================================================
+UBICACIÓN: src/App.jsx
+
+IMPORTACIONES:
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Inicio from "./pages/inicio";
+import Formulario from "./pages/Formulario";
+import Catalogo from "./pages/Catalogo";
+
+FUNCIÓN PRINCIPAL:
+- Define las rutas de la aplicación (SPA - Single Page Application)
+- Renderiza Navbar en todas las páginas
+- Configura 3 rutas principales
+
+RUTAS DEFINIDAS:
+/ ...................... Inicio (dashboard con estadísticas)
+/formulario ............ Formulario para crear pedidos
+/catalogo .............. Lista de pedidos con filtros
+
+ESTRUCTURA DEL CÓDIGO:
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Inicio />} />
+        <Route path="/formulario" element={<Formulario />} />
+        <Route path="/catalogo" element={<Catalogo />} />
+      </Routes>
+    </Router>
+  );
+}
+
+CONCEPTOS CLAVE:
+- BrowserRouter: Proveedor de contexto de navegación
+- Routes: Contenedor de rutas
+- Route: Define una ruta específica
+
+
+================================================================================
+3. Navbar.jsx (NAVEGACIÓN)
+================================================================================
+UBICACIÓN: src/components/Navbar.jsx
+
+IMPORTACIONES:
+import React from "react";
+import { NavLink } from "react-router-dom";
+import "./Navbar.css";
+import logo from "../img/logo2.png";
+
+FUNCIÓN PRINCIPAL:
+- Barra de navegación superior visible en todas las páginas
+- Logo y nombre de la marca
+- Links de navegación con estilo activo
+
+ELEMENTOS:
+- Logo de Agua Rebelde (imagen)
+- Texto "AGUA REBELDE"
+- Links: INICIO | FORMULARIO | LISTA
+
+CARACTERÍSTICAS:
+- NavLink aplica clase 'active' automáticamente en la ruta actual
+- Navegación sin recargar página (SPA)
+- Estilos personalizados en Navbar.css
+
+
+================================================================================
+4. inicio.jsx (DASHBOARD)
+================================================================================
+UBICACIÓN: src/pages/inicio.jsx
+
+IMPORTACIONES:
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./Inicio.css";
+
+FUNCIÓN PRINCIPAL:
+- Dashboard con estadísticas de pedidos
+- Muestra: pendientes, entregados y total
+- Botones de acceso rápido
+
+HOOKS UTILIZADOS:
+const [pedidos, setPedidos] = useState([]);
+
+useEffect(() => {
+  const cargarPedidos = () => {
+    const pedidosGuardados = JSON.parse(localStorage.getItem("pedidos") || "[]");
+    setPedidos(pedidosGuardados);
+  };
+  cargarPedidos();
+}, []);
+
+CÁLCULOS DINÁMICOS:
+const pedidosPendientes = pedidos.filter(p => !p.entregado).length;
+const pedidosEntregados = pedidos.filter(p => p.entregado).length;
+
+SECCIONES VISUALES:
+1. Título "Panel del Empleado"
+2. Descripción del sistema
+3. Estadísticas en 3 tarjetas:
+   - Pendientes
+   - Entregados
+   - Total
+4. Botones de acción:
+   - Nuevo Pedido (→ /formulario)
+   - Ver Pedidos (→ /catalogo)
+
+
+================================================================================
+5. Formulario.jsx ⭐ (CREAR PEDIDOS)
+================================================================================
+UBICACIÓN: src/pages/Formulario.jsx
+
+IMPORTACIONES:
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import './Formulario.css';
+
+FUNCIÓN PRINCIPAL:
+- Formulario para crear nuevos pedidos de agua
+- Validaciones estrictas en cada campo
+- Guarda en localStorage
+
+REACT HOOK FORM:
+const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+register ........... Vincula inputs al formulario
+handleSubmit ....... Maneja el envío
+reset .............. Limpia el formulario
+errors ............. Objeto con errores de validación
+
+CAMPOS DEL FORMULARIO:
+--------------------------------------------------------------------------------
+CAMPO        TIPO      VALIDACIÓN
+--------------------------------------------------------------------------------
+nombre       text      - Requerido
+                       - Solo letras y espacios: /^[A-Za-z\s]+$/
+
+dni          text      - Requerido
+                       - Solo dígitos: /^[0-9]+$/
+
+direccion    text      - Requerido
+
+celular      tel       - Requerido
+                       - Min 3 dígitos, opcional +: /^\+?(\d+){3,}$/
+
+producto     select    - Requerido
+                       - Opciones: Botella 1L, Bidón 20L, Pack 6x500ml
+
+cantidad     text      - Requerido
+                       - Solo dígitos: /^[0-9]+$/
+                       - Validación personalizada: parseInt(value) > 0
+
+EJEMPLO DE REGISTRO DE CAMPO:
+<input
+  {...register('nombre', { 
+    required: 'El nombre es requerido',
+    pattern: {
+      value: /^[A-Za-z\s]+$/,
+      message: 'Solo se permiten letras y espacios'
+    }
+  })}
+/>
+
+PROCESO onSubmit:
+--------------------------------------------------------------------------------
+const onSubmit = (data) => {
+  // 1. Leer pedidos existentes
+  const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
+  
+  // 2. Crear nuevo pedido
+  const nuevoPedido = {
+    ...data,
+    id: Date.now(),                      // ID único (timestamp)
+    fecha: new Date().toLocaleString(),  // Fecha actual formateada
+    entregado: false                     // Estado inicial
+  };
+  
+  // 3. Agregar al array
+  pedidos.push(nuevoPedido);
+  
+  // 4. Guardar en localStorage
+  localStorage.setItem('pedidos', JSON.stringify(pedidos));
+  
+  // 5. Notificar y resetear
+  alert('Pedido enviado exitosamente');
+  reset();
+};
+
+ESTRUCTURA DE UN PEDIDO GUARDADO:
+{
+  id: 1699372800000,
+  nombre: "Juan Pérez",
+  dni: "12345678",
+  direccion: "Calle Falsa 123",
+  celular: "+54911234567",
+  producto: "Bidón 20L",
+  cantidad: "3",
+  fecha: "7/11/2025 14:30:00",
+  entregado: false
+}
+
+
+================================================================================
+6. Catalogo.jsx (LISTA DE PEDIDOS)
+================================================================================
+UBICACIÓN: src/pages/Catalogo.jsx
+
+IMPORTACIONES:
+import React, { useState, useEffect } from 'react';
+import './Catalogo.css';
+
+FUNCIÓN PRINCIPAL:
+- Mostrar lista de todos los pedidos
+- Filtros de búsqueda
+- Acciones: eliminar y marcar como entregado
+- Auto-actualización cada 1 segundo
+
+HOOKS UTILIZADOS:
+const [pedidos, setPedidos] = useState([]);
+const [nombreBusqueda, setNombreBusqueda] = useState('');
+const [tipoProducto, setTipoProducto] = useState('todos');
+
+useEffect CON INTERVALO:
+useEffect(() => {
+  cargarPedidos();
+  const interval = setInterval(cargarPedidos, 1000);
+  return () => clearInterval(interval);  // Cleanup al desmontar
+}, []);
+
+FUNCIONES PRINCIPALES:
+--------------------------------------------------------------------------------
+
+1. cargarPedidos()
+   - Lee de localStorage
+   - Actualiza estado con setPedidos()
+   
+const cargarPedidos = () => {
+  const pedidosGuardados = JSON.parse(localStorage.getItem('pedidos') || '[]');
+  setPedidos(pedidosGuardados);
+};
+
+2. confirmarYEliminar(id)
+   - Muestra confirmación con window.confirm()
+   - Filtra el pedido del array
+   - Actualiza localStorage
+   
+const confirmarYEliminar = (id) => {
+  const confirmar = window.confirm('¿Estás seguro de eliminar este pedido?');
+  if (confirmar) {
+    const pedidosActualizados = pedidos.filter(pedido => pedido.id !== id);
+    localStorage.setItem('pedidos', JSON.stringify(pedidosActualizados));
+    setPedidos(pedidosActualizados);
+  }
+};
+
+3. marcarEntregado(id)
+   - Busca el pedido por ID
+   - Cambia entregado: false → true
+   - Actualiza localStorage
+   
+const marcarEntregado = (id) => {
+  const pedidosActualizados = pedidos.map(pedido =>
+    pedido.id === id ? { ...pedido, entregado: true } : pedido
+  );
+  localStorage.setItem('pedidos', JSON.stringify(pedidosActualizados));
+  setPedidos(pedidosActualizados);
+};
+
+4. normalizar(texto)
+   - Quita acentos y convierte a minúsculas
+   - Mejora la búsqueda (ej: "José" encuentra "jose")
+   
+const normalizar = (texto) =>
+  texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+SISTEMA DE FILTROS:
+--------------------------------------------------------------------------------
+const pedidosFiltrados = pedidos.filter(pedido => {
+  const nombre = normalizar(pedido.nombre || '');
+  const producto = normalizar(pedido.producto || '');
+  
+  const coincideNombre = nombre.includes(normalizar(nombreBusqueda));
+  const coincideProducto = tipoProducto === 'todos' || 
+                           producto.includes(tipoProducto);
+  
+  return coincideNombre && coincideProducto;
+});
+
+FILTROS DISPONIBLES:
+1. Búsqueda por nombre (input de texto)
+2. Filtro por tipo de producto (select):
+   - Todos los productos
+   - Bidón
+   - Botella
+   - Pack
+
+INTERFAZ VISUAL:
+- Input de búsqueda
+- Select de filtro por producto
+- Lista de tarjetas con información del pedido
+- Botón X (eliminar)
+- Botón "Entregar" (solo si no está entregado)
+
+
+================================================================================
+💾 FLUJO DE DATOS CON localStorage
+================================================================================
+
+¿QUÉ ES localStorage?
+--------------------------------------------------------------------------------
+- Almacenamiento local del navegador web
+- Los datos persisten al cerrar el navegador
+- Solo accesible desde el mismo navegador/computadora
+- Capacidad: ~5-10 MB
+- Solo almacena strings (por eso usamos JSON)
+
+UBICACIÓN FÍSICA:
+Windows (Chrome): 
+C:\Users\TuUsuario\AppData\Local\Google\Chrome\User Data\Default\Local Storage
+
+CLAVE UTILIZADA:
+'pedidos' → Guarda array de todos los pedidos
+
+OPERACIONES CRUD:
+--------------------------------------------------------------------------------
+
+CREATE (Crear):
+localStorage.setItem('pedidos', JSON.stringify(array));
+
+READ (Leer):
+const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
+
+UPDATE (Actualizar):
+const actualizados = pedidos.map(p => 
+  p.id === id ? { ...p, entregado: true } : p
+);
+localStorage.setItem('pedidos', JSON.stringify(actualizados));
+
+DELETE (Eliminar):
+const filtrados = pedidos.filter(p => p.id !== id);
+localStorage.setItem('pedidos', JSON.stringify(filtrados));
+
+¿POR QUÉ JSON.parse y JSON.stringify?
+--------------------------------------------------------------------------------
+localStorage solo guarda strings, entonces:
+
+JSON.stringify: Objeto JavaScript → String JSON
+{ nombre: "Juan" }  →  '{"nombre":"Juan"}'
+
+JSON.parse: String JSON → Objeto JavaScript
+'{"nombre":"Juan"}'  →  { nombre: "Juan" }
+
+PROTECCIÓN CONTRA ERRORES:
+localStorage.getItem('pedidos') || '[]'
+                                    ↑
+Si no existe nada, usa array vacío para evitar errores
+
+
+================================================================================
+🔄 FLUJO COMPLETO DE LA APLICACIÓN
+================================================================================
+
+1. INICIO DE LA APLICACIÓN
+--------------------------------------------------------------------------------
+index.js → Renderiza <App />
+App.jsx → Carga Router + Navbar + Routes
+Navbar → Siempre visible (navegación persistente)
+
+2. USUARIO NAVEGA A "/"
+--------------------------------------------------------------------------------
+Ruta "/" → Renderiza componente <Inicio />
+Inicio carga pedidos de localStorage con useEffect
+Calcula estadísticas (pendientes/entregados/total)
+Muestra dashboard con tarjetas de stats
+Botones para ir a Formulario o Catálogo
+
+3. USUARIO NAVEGA A "/formulario"
+--------------------------------------------------------------------------------
+Ruta "/formulario" → Renderiza componente <Formulario />
+useForm inicializa el formulario
+Usuario llena campos (nombre, dni, dirección, etc.)
+Usuario hace click en "Enviar Pedido"
+Ejecuta handleSubmit → Validaciones
+Si hay errores → Muestra mensajes debajo de cada campo
+Si todo OK → Ejecuta onSubmit:
+  1. Lee pedidos existentes de localStorage
+  2. Crea nuevo pedido con ID único (Date.now())
+  3. Agrega al array
+  4. Guarda en localStorage
+  5. Muestra alert de éxito
+  6. reset() limpia todos los campos
+
+4. USUARIO NAVEGA A "/catalogo"
+--------------------------------------------------------------------------------
+Ruta "/catalogo" → Renderiza componente <Catalogo />
+useEffect carga pedidos inicial
+setInterval ejecuta cargarPedidos cada 1 segundo
+Usuario puede:
+  - Buscar por nombre (input actualiza nombreBusqueda)
+  - Filtrar por producto (select actualiza tipoProducto)
+  - Ver lista filtrada en tiempo real
+  - Click en X → Confirma y elimina pedido
+  - Click en "Entregar" → Marca pedido como entregado
+Cada acción actualiza localStorage inmediatamente
+
+
+================================================================================
+🔑 CONCEPTOS CLAVE DE REACT
+================================================================================
+
+1. COMPONENTES
+--------------------------------------------------------------------------------
+- Bloques reutilizables de código
+- Pueden ser funciones (componentes funcionales)
+- Reciben props y retornan JSX
+- Ejemplo: Navbar, Formulario, Catalogo
+
+2. JSX (JavaScript XML)
+--------------------------------------------------------------------------------
+- Sintaxis que parece HTML pero es JavaScript
+- Se compila a React.createElement()
+- Permite escribir interfaz de usuario de forma declarativa
+- Ejemplo: <div className="container">Hola</div>
+
+3. HOOKS (desde React 16.8)
+--------------------------------------------------------------------------------
+Funciones especiales que permiten usar estado y otras características de React:
+
+useState:
+- Agrega estado local al componente
+- Retorna [valor, funcionParaActualizarlo]
+- Ejemplo: const [pedidos, setPedidos] = useState([]);
+
+useEffect:
+- Ejecuta efectos secundarios (side effects)
+- Se ejecuta después del render
+- Puede tener dependencias que controlan cuándo se ejecuta
+- Puede retornar función de cleanup
+- Ejemplo: cargar datos, suscripciones, timers
+
+useForm (de react-hook-form):
+- Hook personalizado (custom hook)
+- Simplifica manejo de formularios
+- Proporciona register, handleSubmit, errors, reset
+
+4. PROPS
+--------------------------------------------------------------------------------
+- Propiedades que se pasan de componente padre a hijo
+- Son inmutables (read-only)
+- Ejemplo: <Navbar logo={logoUrl} />
+
+5. ESTADO (State)
+--------------------------------------------------------------------------------
+- Datos que cambian en el tiempo
+- Cuando el estado cambia, React re-renderiza el componente
+- Ejemplo: pedidos, nombreBusqueda, tipoProducto
+
+6. EVENTOS
+--------------------------------------------------------------------------------
+- onClick, onChange, onSubmit, etc.
+- Usan camelCase (no onclick)
+- Ejemplo: <button onClick={handleClick}>
+
+
+================================================================================
+🎯 REACT ROUTER DOM
+================================================================================
+
+BrowserRouter (Router):
+- Proveedor de contexto de navegación
+- Usa History API del navegador
+- URLs limpias sin # (ej: /formulario, no /#/formulario)
+
+Routes:
+- Contenedor de rutas
+- Reemplaza a Switch en versiones antiguas
+
+Route:
+- Define una ruta específica
+- path: URL de la ruta
+- element: Componente a renderizar
+
+Link:
+- Navegación sin recargar página
+- Reemplaza a <a href="">
+
+NavLink:
+- Como Link pero agrega clase 'active' en ruta actual
+- Útil para menús de navegación
+
+
+================================================================================
+📝 REACT HOOK FORM
+================================================================================
+
+¿POR QUÉ USARLO?
+- Menos re-renders (mejor performance)
+- Validaciones integradas
+- Manejo simple de errores
+- Menos código boilerplate
+
+MÉTODOS PRINCIPALES:
+
+register(name, options):
+- Registra un input en el formulario
+- Opciones: required, pattern, validate, min, max, etc.
+- Se usa con spread operator: {...register('nombre')}
+
+handleSubmit(callback):
+- Maneja el submit del formulario
+- Ejecuta validaciones antes de llamar al callback
+- Previene comportamiento por defecto
+
+reset():
+- Limpia todos los campos del formulario
+- Útil después de enviar con éxito
+
+formState:
+- Objeto con información del estado del formulario
+- errors: objeto con errores de validación
+- isSubmitting, isDirty, isValid, etc.
+
+EJEMPLO COMPLETO:
+const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+<form onSubmit={handleSubmit(onSubmit)}>
+  <input {...register('nombre', { required: 'Campo requerido' })} />
+  {errors.nombre && <span>{errors.nombre.message}</span>}
+  <button type="submit">Enviar</button>
+</form>
+
+
+================================================================================
+🎨 ESTILOS CSS
+================================================================================
+
+ARCHIVOS CSS DEL PROYECTO:
+- index.css .......... Estilos globales
+- App.css ............ Contenedor principal
+- Navbar.css ......... Barra de navegación
+- Inicio.css ......... Dashboard
+- Formulario.css ..... Formulario con tema oscuro cyan
+- Catalogo.css ....... Lista de pedidos
+
+TEMA DEL FORMULARIO:
+- Color principal: #00B8FF (cyan/celeste)
+- Fondo oscuro: #000000 y #1a1a1a
+- Gradientes radiales con rgba cyan
+- Iconos flotantes del logo con animación
+- Validaciones en color rojo
+
+CARACTERÍSTICAS VISUALES:
+- Diseño responsive
+- Animaciones CSS (float keyframes)
+- Pseudo-elementos ::before y ::after para decoración
+- Transiciones suaves
+- Efectos hover en botones
+
+
+================================================================================
+✅ VALIDACIONES DEL FORMULARIO
+================================================================================
+
+CAMPO: nombre
+Regex: /^[A-Za-z\s]+$/
+Descripción: Solo letras (mayúsculas y minúsculas) y espacios
+Ejemplos válidos: "Juan Pérez", "María José"
+Ejemplos inválidos: "Juan123", "José@"
+
+CAMPO: dni
+Regex: /^[0-9]+$/
+Descripción: Solo dígitos del 0 al 9
+Ejemplos válidos: "12345678", "98765432"
+Ejemplos inválidos: "123-456", "12.345.678"
+
+CAMPO: celular
+Regex: /^\+?(\d+){3,}$/
+Descripción: Mínimo 3 dígitos, opcionalmente puede empezar con +
+Ejemplos válidos: "+54911234567", "1234567890", "+123"
+Ejemplos inválidos: "12", "+12", "123abc"
+
+CAMPO: cantidad
+Regex: /^[0-9]+$/
+Validación adicional: parseInt(value) > 0
+Descripción: Solo dígitos y debe ser mayor a 0
+Ejemplos válidos: "1", "10", "999"
+Ejemplos inválidos: "0", "-5", "1.5"
+
+CAMPO: producto
+Validación: required
+Opciones: "Botella 1L", "Bidón 20L", "Pack 6x500ml"
+
+CAMPO: direccion
+Validación: required (sin regex)
+Acepta cualquier texto
+
+
+================================================================================
+🚀 COMANDOS PARA EJECUTAR
+================================================================================
+
+INSTALAR DEPENDENCIAS:
+npm install
+
+INICIAR SERVIDOR DE DESARROLLO:
+npm start
+→ Abre http://localhost:3000
+
+COMPILAR PARA PRODUCCIÓN:
+npm build
+→ Genera carpeta /build con archivos optimizados
+
+EJECUTAR TESTS:
+npm test
+
+VER PAQUETES INSTALADOS:
+npm list
+
+ACTUALIZAR DEPENDENCIAS:
+npm update
+
+
+================================================================================
+🔍 DEBUGGING Y HERRAMIENTAS
+================================================================================
+
+REACT DEVELOPER TOOLS:
+- Extensión de navegador
+- Inspeccionar componentes
+- Ver props y estado
+- Analizar árbol de componentes
+
+VER localStorage EN NAVEGADOR:
+1. F12 (Abrir DevTools)
+2. Pestaña "Application" o "Almacenamiento"
+3. Local Storage → http://localhost:3000
+4. Ver clave "pedidos"
+
+CONSOLE.LOG:
+- console.log(pedidos) en cualquier parte del código
+- Ver en consola del navegador (F12)
+
+ERRORES COMUNES:
+- "Cannot read property of undefined" → Verificar que el objeto existe
+- "Invalid hook call" → Hooks solo dentro de componentes funcionales
+- "Unexpected token <" → Error de sintaxis en JSX
+
+
+================================================================================
+📊 PREGUNTAS FRECUENTES PARA TU LECCIÓN
+================================================================================
+
+1. ¿Por qué usar React en lugar de HTML/JS vanilla?
+   - Componentes reutilizables
+   - Virtual DOM (mejor rendimiento)
+   - Ecosistema robusto
+   - Manejo de estado eficiente
+
+2. ¿Por qué react-hook-form?
+   - Menos re-renders (mejor performance)
+   - Validaciones integradas y fáciles
+   - Menos código que controlled components
+
+3. ¿Por qué localStorage y no base de datos?
+   - Proyecto educativo/demostrativo
+   - Sin necesidad de backend
+   - Más simple de implementar
+   - Suficiente para práctica
+
+4. ¿Por qué setInterval en Catalogo?
+   - Simula actualización en tiempo real
+   - Útil si múltiples usuarios (en real usarías WebSockets)
+   - Demuestra uso de cleanup en useEffect
+
+5. ¿Por qué Date.now() como ID?
+   - Timestamp único en milisegundos
+   - No requiere contador manual
+   - Suficiente para aplicación sin backend
+
+6. ¿Qué pasa si borro localStorage?
+   - Se pierden todos los pedidos
+   - La app sigue funcionando (array vacío)
+   - En producción usarías base de datos persistente
+
+
+================================================================================
+💡 MEJORAS FUTURAS SUGERIDAS
+================================================================================
+
+FUNCIONALIDAD:
+□ Conectar a backend real (Node.js + MongoDB)
+□ Autenticación de usuarios
+□ Editar pedidos existentes
+□ Exportar pedidos a PDF o Excel
+□ Notificaciones push
+□ Múltiples estados de pedido (pendiente, en camino, entregado)
+
+TÉCNICO:
+□ Context API o Redux para estado global
+□ TypeScript para type safety
+□ Tests unitarios con Jest
+□ Tests E2E con Cypress
+□ Progressive Web App (PWA)
+
+UI/UX:
+□ Modo oscuro/claro toggle
+□ Animaciones más suaves
+□ Responsive mejorado para móviles
+□ Drag & drop para reordenar
+□ Skeleton loaders
+
+
+================================================================================
+📚 RECURSOS ADICIONALES
+================================================================================
+
+DOCUMENTACIÓN OFICIAL:
+- React: https://react.dev
+- React Router: https://reactrouter.com
+- React Hook Form: https://react-hook-form.com
+
+TUTORIALES:
+- Create React App: https://create-react-app.dev
+- MDN Web Docs (localStorage): https://developer.mozilla.org/es/
+
+COMUNIDAD:
+- Stack Overflow: Buscar errores
+- GitHub: Ver código de otros proyectos
+- Reddit r/reactjs: Discusiones
+
+
+================================================================================
+🎓 ESTRUCTURA DE TU LECCIÓN SUGERIDA
+================================================================================
+
+1. INTRODUCCIÓN (5 min)
+   - ¿Qué es React?
+   - ¿Por qué usarlo?
+   - Mostrar resultado final de la app
+
+2. ARQUITECTURA GENERAL (10 min)
+   - Mostrar estructura de carpetas
+   - Explicar flujo de datos
+   - Concepto de componentes
+
+3. COMPONENTE POR COMPONENTE (30 min)
+   - App.jsx → Router
+   - Navbar.jsx → Navegación
+   - Inicio.jsx → Dashboard + useEffect
+   - Formulario.jsx → Forms + Validaciones
+   - Catalogo.jsx → Filtros + CRUD
+
+4. CONCEPTOS CLAVE (15 min)
+   - Hooks (useState, useEffect)
+   - React Router
+   - localStorage
+   - react-hook-form
+
+5. DEMO EN VIVO (10 min)
+   - Ejecutar npm start
+   - Crear pedido
+   - Ver en catálogo
+   - Inspeccionar localStorage
+   - Mostrar React DevTools
+
+6. PREGUNTAS Y RESPUESTAS (10 min)
+
+
+================================================================================
+FIN DEL RESUMEN - AGUA REBELDE
+Proyecto educativo - React + localStorage - 2025
+================================================================================

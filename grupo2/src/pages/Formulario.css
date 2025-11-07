@@ -223,10 +223,114 @@
   box-shadow: 0 5px 20px rgba(76, 175, 80, 0.6);
 }
 
+/* Modal de éxito */
+.modal-exito {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.modal-exito-contenido {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border: 2px solid #00B8FF;
+  border-radius: 20px;
+  padding: 40px 60px;
+  text-align: center;
+  box-shadow: 0 10px 50px rgba(0, 184, 255, 0.4);
+  animation: slideIn 0.3s ease-out;
+}
+
+.modal-exito-icono {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #00B8FF, #0090cc);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: white;
+  margin: 0 auto 20px;
+  box-shadow: 0 5px 20px rgba(0, 184, 255, 0.5);
+  animation: scaleIn 0.5s ease-out;
+}
+
+.modal-exito-contenido h3 {
+  color: #00B8FF;
+  font-size: 1.8rem;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.modal-exito-contenido p {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 10px 0 0;
+  opacity: 0.9;
+}
+
+.modal-exito.fade-out {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slideIn {
+  from { 
+    transform: translateY(-50px) scale(0.9);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  0% { 
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.1);
+  }
+  100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 600px) {
   .formulario { padding: 25px; }
   .formulario-container h2 { font-size: 1.5rem; }
   .modal-content { width: 95%; }
   .modal-header h2 { font-size: 1.3rem; }
   .modal-body { padding: 20px; }
+  .modal-exito-contenido {
+    padding: 30px 40px;
+  }
+  .modal-exito-icono {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+  .modal-exito-contenido h3 {
+    font-size: 1.4rem;
+  }
 }
