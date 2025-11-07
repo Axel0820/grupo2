@@ -1,2 +1,0 @@
-- [x] Edit Formulario.jsx to add entregado: false to new pedidos
-- [x] Edit Catalogo.jsx to add "Entregar" button that sets entregado: true
