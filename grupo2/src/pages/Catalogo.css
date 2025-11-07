@@ -165,3 +165,25 @@
     padding: 15px;
   }
 }
+
+.btn-entregar {
+  background: linear-gradient(135deg, #00B8FF, #0099e6);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 184, 255, 0.3);
+}
+
+.btn-entregar:hover {
+  background: linear-gradient(135deg, #0099e6, #00B8FF);
+  box-shadow: 0 0 25px rgba(0, 184, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-entregar:active {
+  transform: scale(0.97);
+}
