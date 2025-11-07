@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import './Formulario.css';
 
 function Formulario() {
-  // useForm nos da: register, handleSubmit, reset y errors
+  
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-  // Esta función se ejecuta cuando el formulario es válido
+  
   const onSubmit = (data) => {
-    // Guardar en localStorage
+   
     const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
     const nuevoPedido = {
       ...data,
@@ -20,8 +20,26 @@ function Formulario() {
     localStorage.setItem('pedidos', JSON.stringify(pedidos));
     
     console.log('Datos del pedido:', data);
-    alert('Pedido enviado exitosamente, revisa la consola');
-    reset(); // Limpia el formulario
+    mostrarNotificacion();
+    reset(); 
+  };
+
+  const mostrarNotificacion = () => {
+    const modal = document.createElement('div');
+    modal.className = 'modal-exito';
+    modal.innerHTML = `
+      <div class="modal-exito-contenido">
+        <div class="modal-exito-icono">✓</div>
+        <h3>¡Pedido Enviado!</h3>
+        <p>Tu pedido ha sido registrado exitosamente</p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    setTimeout(() => {
+      modal.classList.add('fade-out');
+      setTimeout(() => document.body.removeChild(modal), 300);
+    }, 2500);
   };
 
   return (
@@ -36,12 +54,17 @@ function Formulario() {
             type="text"
             {...register('nombre', { 
               required: 'El nombre es requerido',
+              maxLength: {
+                value: 30,
+                message: 'El nombre no puede tener más de 30 caracteres'
+              },
               pattern: {
-                value: /^[A-Za-z\s]+$/,
+                value: /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/,
                 message: 'Solo se permiten letras y espacios'
               }
             })}
             placeholder="Ingrese su nombre"
+            maxLength="30"
           />
           {errors.nombre && <span className="error">{errors.nombre.message}</span>}
         </div>
@@ -54,11 +77,20 @@ function Formulario() {
             {...register('dni', { 
               required: 'El DNI es requerido',
               pattern: {
-                value: /^[0-9]+$/,
-                message: 'Solo se permiten dígitos del 0 al 9'
+                value: /^[0-9]{8}$/,
+                message: 'El DNI debe tener exactamente 8 dígitos'
+              },
+              minLength: {
+                value: 8,
+                message: 'El DNI debe tener 8 dígitos'
+              },
+              maxLength: {
+                value: 8,
+                message: 'El DNI debe tener 8 dígitos'
               }
             })}
-            placeholder="Ingrese su DNI"
+            placeholder="Ingrese su DNI (8 dígitos)"
+            maxLength="8"
           />
           {errors.dni && <span className="error">{errors.dni.message}</span>}
         </div>
@@ -68,8 +100,15 @@ function Formulario() {
           <input
             id="direccion"
             type="text"
-            {...register('direccion', { required: 'La dirección es requerida' })}
+            {...register('direccion', { 
+              required: 'La dirección es requerida',
+              maxLength: {
+                value: 150,
+                message: 'La dirección no puede tener más de 150 caracteres'
+              }
+            })}
             placeholder="Ingrese su dirección"
+            maxLength="150"
           />
           {errors.direccion && <span className="error">{errors.direccion.message}</span>}
         </div>
@@ -82,11 +121,11 @@ function Formulario() {
             {...register('celular', { 
               required: 'El número de celular es requerido',
               pattern: {
-                value: /^\+?(\d+){3,}$/,
-                message: 'Mínimo 3 dígitos, opcional "+"'
+                value: /^\+54\s?\d{10,11}$/,
+                message: 'Formato: +54 seguido de 10-11 dígitos (Ej: +54 3875787392)'
               }
             })}
-            placeholder="Ingrese su número de celular"
+            placeholder="+54 3875787392"
           />
           {errors.celular && <span className="error">{errors.celular.message}</span>}
         </div>
@@ -109,14 +148,19 @@ function Formulario() {
           <label htmlFor="cantidad">Cantidad:</label>
           <input
             id="cantidad"
-            type="text"
+            type="number"
+            min="1"
             {...register('cantidad', { 
               required: 'La cantidad es requerida',
               pattern: {
                 value: /^[0-9]+$/,
-                message: 'Solo se permiten dígitos del 0 al 9'
+                message: 'Solo se permiten números positivos'
               },
-              validate: value => parseInt(value) > 0 || 'La cantidad debe ser mayor a 0'
+              validate: value => parseInt(value) > 0 || 'La cantidad debe ser mayor a 0',
+              min: {
+                value: 1,
+                message: 'La cantidad mínima es 1'
+              }
             })}
             placeholder="Ingrese la cantidad"
           />
