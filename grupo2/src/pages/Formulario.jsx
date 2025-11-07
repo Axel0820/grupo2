@@ -13,7 +13,8 @@ function Formulario() {
     const nuevoPedido = {
       ...data,
       id: Date.now(),
-      fecha: new Date().toLocaleString()
+      fecha: new Date().toLocaleString(),
+      entregado: false
     };
     pedidos.push(nuevoPedido);
     localStorage.setItem('pedidos', JSON.stringify(pedidos));

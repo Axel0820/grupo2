@@ -26,6 +26,14 @@ import React, { useState, useEffect } from 'react';
         }
     };
 
+    const marcarEntregado = (id) => {
+        const pedidosActualizados = pedidos.map(pedido =>
+            pedido.id === id ? { ...pedido, entregado: true } : pedido
+        );
+        localStorage.setItem('pedidos', JSON.stringify(pedidosActualizados));
+        setPedidos(pedidosActualizados);
+    };
+
     const normalizar = (texto) =>
         texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
@@ -82,6 +90,14 @@ import React, { useState, useEffect } from 'react';
                     <p><strong>Dirección:</strong> {pedido.direccion}</p>
                     <p><strong>Celular:</strong> {pedido.celular}</p>
                     <p className="fecha"><strong>Fecha:</strong> {pedido.fecha}</p>
+                    {!pedido.entregado && (
+                        <button
+                        onClick={() => marcarEntregado(pedido.id)}
+                        className="btn-entregar"
+                        >
+                        Entregar
+                        </button>
+                    )}
                 </div>
                 </div>
             ))}
