@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import './Formulario.css';
 
 function Formulario() {
-  // useForm nos da: register, handleSubmit, reset y errors
+  
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-  // Esta función se ejecuta cuando el formulario es válido
+  
   const onSubmit = (data) => {
-    // Guardar en localStorage
+   
     const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
     const nuevoPedido = {
       ...data,
@@ -20,7 +20,7 @@ function Formulario() {
     
     console.log('Datos del pedido:', data);
     alert('Pedido enviado exitosamente, revisa la consola');
-    reset(); // Limpia el formulario
+    reset(); 
   };
 
   return (

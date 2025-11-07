@@ -13,21 +13,29 @@
 }
 
 .formulario-container::before {
-  content: '💧';
+  content: '';
   position: absolute;
   top: 10%;
   left: 10%;
-  font-size: 4rem;
+  width: 80px;
+  height: 80px;
+  background-image: url('../img/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
   opacity: 0.1;
   animation: float 6s ease-in-out infinite;
 }
 
 .formulario-container::after {
-  content: '🌊';
+  content: '';
   position: absolute;
   bottom: 10%;
   right: 10%;
-  font-size: 4rem;
+  width: 80px;
+  height: 80px;
+  background-image: url('../img/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
   opacity: 0.1;
   animation: float 8s ease-in-out infinite reverse;
 }
